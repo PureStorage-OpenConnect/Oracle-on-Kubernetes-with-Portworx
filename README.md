@@ -3,7 +3,7 @@
 
 
 ## Kubernetes Environment
-**Oracle-on-Kubernets** has been tested on Kubernetes v1.17 but should also work on more recent Kubernetes versions.
+The examples has been tested on Kubernetes v1.17 but should also work on more recent Kubernetes versions.
 
 
 ## Oracle Database Versions
