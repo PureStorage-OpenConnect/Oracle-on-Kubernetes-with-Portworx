@@ -11,7 +11,7 @@ The examples has been tested on Kubernetes v1.17 but should also work on more re
 
 ## Getting Started
 
-1. Install Portworx into Kubernetes Cluster
+1. Install Portworx into your Kubernetes Cluster
 1. Pull this Repo
 1. Vist my Blog and read relevant Oracle on Kubernetes posts 
 
