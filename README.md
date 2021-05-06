@@ -3,13 +3,11 @@
 
 
 ## Kubernetes Environment
-**Oracle-on-Kubernets** has been tested on Kubernetes v1.17 but should also work on more recent Kubernetes version.
+**Oracle-on-Kubernets** has been tested on Kubernetes v1.17 but should also work on more recent Kubernetes versions.
 
 
-## Oracle Database Features
-1. Oracle 19c Database
-1. Stop / Start Databases
-1. Relocate / Move Databases
+## Oracle Database Versions
+1. Oracle 19.3.0 EE
 
 ## Getting Started
 
