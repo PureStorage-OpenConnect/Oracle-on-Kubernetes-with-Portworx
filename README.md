@@ -5,7 +5,7 @@
 ## Kubernetes Environment
 The examples has been tested on Kubernetes v1.17 but should also work on more recent Kubernetes versions.
 
-You can check the version of Kubernetes using:
+### You can check the version of Kubernetes using:
 `
 $ kubectl version --short | awk -Fv '/Server Version: / {print $3}'
 `
