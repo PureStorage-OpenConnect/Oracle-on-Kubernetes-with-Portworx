@@ -41,11 +41,9 @@ spec:
          - name: dshm
            emptyDir:
              medium: Memory
-      imagePullSecrets:
-        - name: regcred 
       containers:
         - name: oracle19c
-          image: container-registry.oracle.com/database/enterprise:19.3.0.0
+          image: container-registry.oracle.com/database/enterprise:latest
           command:
           - /opt/oracle/runOracle.sh
           imagePullPolicy: IfNotPresent
@@ -89,6 +87,8 @@ spec:
                 configMapKeyRef:
                   name: oradb #Read from a configmap called oradb
                   key: ORACLE_CHARACTERSET #Read the key call ORACLE_CHARACTERSET
+      imagePullSecrets:
+        - name: regcred 
   volumeClaimTemplates:
   - metadata:
       name: ora-startup193 
