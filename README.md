@@ -5,6 +5,8 @@
 ## Kubernetes Environment
 The examples has been tested on Kubernetes v1.17 but should also work on more recent Kubernetes versions.
 
+You can check the version of Kubernetes using:
+kubectl version --short | awk -Fv '/Server Version: / {print $3}'
 
 ## Oracle Database Versions
 1. Oracle 19.3.0 EE
