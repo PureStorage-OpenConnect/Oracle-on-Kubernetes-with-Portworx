@@ -9,7 +9,11 @@ The examples has been tested on Kubernetes v1.17 but should also work on more re
 `
 $ kubectl version --short | awk -Fv '/Server Version: / {print $3}'
 `
-
+## PortWorx Environment
+Tested with Portworx v2.7.0 
+`
+$ pxctl -v
+`
 ## Oracle Database Versions
 1. Oracle 19.3.0 EE
 
