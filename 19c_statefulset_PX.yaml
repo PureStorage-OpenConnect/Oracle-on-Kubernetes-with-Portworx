@@ -4,14 +4,10 @@ metadata:
     name: px-ora-sc
 provisioner: kubernetes.io/portworx-volume
 parameters:
-   repl: "3"
-   io_profile: "db"
-   priority_io: "high"
----
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: oracle-namespace
+#   repl: "3"
+#   io_profile: "db"
+#   priority_io: "high"
+   io_profile: "auto"
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -41,11 +37,8 @@ spec:
          - name: dshm
            emptyDir:
              medium: Memory
-<<<<<<< HEAD
       imagePullSecrets:
        - name: regcred
-=======
->>>>>>> 82e04b1ae1b2711ba8ecad6f3565084a20da5c94
       containers:
         - name: oracle19c
           image: container-registry.oracle.com/database/enterprise:latest
@@ -92,12 +85,6 @@ spec:
                 configMapKeyRef:
                   name: oradb #Read from a configmap called oradb
                   key: ORACLE_CHARACTERSET #Read the key call ORACLE_CHARACTERSET
-      imagePullSecrets:
-<<<<<<< HEAD
-        - name: regcred  
-=======
-        - name: regcred 
->>>>>>> 82e04b1ae1b2711ba8ecad6f3565084a20da5c94
   volumeClaimTemplates:
   - metadata:
       name: ora-startup193 
