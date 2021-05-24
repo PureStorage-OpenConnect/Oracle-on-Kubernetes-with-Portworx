@@ -11,6 +11,8 @@ $ kubectl version --short | awk -Fv '/Server Version: / {print $3}'
 `
 ## PortWorx Environment
 Tested with Portworx v2.7.0 
+
+### Use pxctl to confirm version of Portworx
 `
 $ pxctl -v
 `
