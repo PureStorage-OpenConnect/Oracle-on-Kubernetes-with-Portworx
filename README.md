@@ -9,7 +9,13 @@ The examples has been tested on Kubernetes v1.17 but should also work on more re
 `
 $ kubectl version --short | awk -Fv '/Server Version: / {print $3}'
 `
+## PortWorx Environment
+Tested with Portworx v2.7.0 
 
+### Use pxctl to confirm version of Portworx
+`
+$ pxctl -v
+`
 ## Oracle Database Versions
 1. Oracle 19.3.0 EE
 
@@ -42,6 +48,8 @@ Licensed under the Apache License, Version 2.0 (the "License"); you may not use 
 ## Link(s)
 
 Oracle 19c on Kubernetes and Portworx storage (https://ronekins.com/2020/11/06/oracle-database-19c-on-kubernetes-with-portworx-storage/)
+
+Oracle 19c on Kubernetes with Portworx Proxy Volumes and NFS (FlashBlade) (https://ronekins.com/2021/05/21/oracle-19c-on-kubernetes-with-nfs-storage-and-portworx-proxy-volumes/)
 
 Protecting your Kubernetes Oracle database with Portworx Volume Group Snapshots (https://ronekins.com/2021/02/10/protecting-your-kubernetes-oracle-database-with-portworx-volume-group-snapshots/)
 
