@@ -1,36 +1,33 @@
+# Create Portworx CSI StorageClass
 kind: StorageClass
-apiVersion: storage.k8s.io/v1beta1
+apiVersion: storage.k8s.io/v1
 metadata:
-    name: px-ora-sc
-provisioner: kubernetes.io/portworx-volume
+    name: px-ora-csi-sc
+provisioner: pxd.portworx.com
 parameters:
-#   repl: "3"
-#   io_profile: "db"
-#   priority_io: "high"
-   io_profile: "auto"
+   repl: "1"
 allowVolumeExpansion: true
 ---
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
-  name: oracle19c 
+  name: oracle18xe 
   namespace: oracle-namespace
   labels:
     app: database
-    version: 19.3.0.1
+    version: 18.4.0.1
 spec:
-  serviceName: "oracle19c"
   replicas: 1
   selector:
     matchLabels:
       app: database
-      version: 19.3.0.1
+      version: 18.4.0.1
   template:
     metadata:
-      name: oracle19c
+      name: oracle18xe
       labels:
         app: database
-        version: 19.3.0.1
+        version: 18.4.0.1
     spec:
       securityContext:
         fsGroup: 54321
@@ -38,17 +35,24 @@ spec:
          - name: dshm
            emptyDir:
              medium: Memory
-      imagePullSecrets:
-       - name: regcred
+         - name: ora-data184
+           persistentVolumeClaim:
+             claimName: ora-data184-claim
+         - name: ora-startup184
+           persistentVolumeClaim:
+             claimName: ora-setup184-claim
+         - name: ora-setup184
+           persistentVolumeClaim:
+             claimName: ora-startup184-claim
       containers:
-        - name: oracle19c
-          image: container-registry.oracle.com/database/enterprise:latest
+        - name: oracle18xe
+          image: 10.225.115.68:5000/oracledb:18.4.0-xe
           command:
           - /opt/oracle/runOracle.sh
           imagePullPolicy: IfNotPresent
           resources:
             requests:
-              memory: 2Gi
+              memory: 4Gi
           ports:
             - name: listener
               containerPort: 1521
@@ -59,23 +63,13 @@ spec:
           volumeMounts:
             - name: dshm
               mountPath: "/dev/shm"
-            - name: ora-data193
+            - name: ora-data184
               mountPath: "/opt/oracle/oradata"
-            - name: ora-setup193
+            - name: ora-setup184
               mountPath: "/opt/oracle/scripts/setup"
-            - name: ora-startup193
+            - name: ora-startup184
               mountPath: "/opt/oracle/scripts/startup"
           env:
-            - name: ORACLE_SID
-              valueFrom:
-                configMapKeyRef:
-                  name: oradb #Read from a configmap called oradb
-                  key: ORACLE_SID #Read the key call ORACLE_SID
-            - name: ORACLE_PDB
-              valueFrom:
-                configMapKeyRef:
-                  name: oradb #Read from a configmap called oradb
-                  key: ORACLE_PDB #Read the key call ORACLE_PDB
             - name: ORACLE_PWD
               valueFrom:
                 configMapKeyRef:
@@ -86,47 +80,64 @@ spec:
                 configMapKeyRef:
                   name: oradb #Read from a configmap called oradb
                   key: ORACLE_CHARACTERSET #Read the key call ORACLE_CHARACTERSET
-  volumeClaimTemplates:
-  - metadata:
-      name: ora-startup193 
-    spec:
-      storageClassName: px-ora-sc
-      accessModes:
-      - ReadWriteOnce
-      resources:
-        requests:
-          storage: 1Gi
-  - metadata:
-      name: ora-setup193
-    spec:
-      storageClassName: px-ora-sc
-      accessModes:
-      - ReadWriteOnce
-      resources:
-        requests:
-          storage: 1Gi
-  - metadata:
-      name: ora-data193
-    spec:
-      storageClassName: px-ora-sc
-      accessModes:
-      - ReadWriteOnce
-      resources:
-        requests:
-          storage: 10Gi
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: ora-data184-claim
+  labels:
+    app: database
+    version: 18.4.0.1
+spec:
+  storageClassName: px-ora-csi-sc
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: ora-setup184-claim
+  labels:
+    app: database
+    version: 18.4.0.1
+spec:
+  storageClassName: px-ora-csi-sc
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+     storage: 1Gi
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: ora-startup184-claim
+  labels:
+    app: database
+    version: 18.4.0.1
+spec:
+  storageClassName: px-ora-csi-sc
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: oracle19c
+  name: oracle18xe
   namespace: oracle-namespace
   labels:
     app: database
-    version: 19.3.0.1
+    version: 18.4.0.1
 spec:
   selector:
     app: database
-    version: 19.3.0.1
+    version: 18.4.0.1
   type: NodePort
   ports:
   - name: listener
