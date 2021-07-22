@@ -1,0 +1,10 @@
+nd: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: px-ora-sc-nfs
+provisioner: kubernetes.io/portworx-volume
+parameters:
+  proxy_endpoint: "nfs://10.225.113.166"
+  proxy_nfs_exportpath: "/z-k8-pstg"
+  mount_options: "rw,bg,hard,nointr,tcp,vers=3,timeo=600,actimeo=0"
+allowVolumeExpansion: true

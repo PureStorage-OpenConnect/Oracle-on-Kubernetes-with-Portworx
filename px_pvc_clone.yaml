@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ora-data184-claim-clone
+  labels:
+    app: database
+    version: 18.4.0.1
+spec:
+  storageClassName: px-ora-csi-sc
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+  dataSource:
+    kind: PersistentVolumeClaim
+    name: ora-data184-claim

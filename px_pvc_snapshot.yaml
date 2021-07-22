@@ -1,0 +1,10 @@
+apiVersion: volumesnapshot.external-storage.k8s.io/v1
+kind: VolumeSnapshot
+metadata:
+  name: ora-data184-claim-snapshot
+  namespace: oracle-namespace
+  labels:
+    app: database
+    version: 18.4.0.1
+spec:
+  persistentVolumeClaimName: ora-data184-claim

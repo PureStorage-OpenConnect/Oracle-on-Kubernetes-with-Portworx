@@ -1,13 +1,3 @@
-# Create Portworx CSI StorageClass
-kind: StorageClass
-apiVersion: storage.k8s.io/v1
-metadata:
-    name: px-ora-csi-sc
-provisioner: pxd.portworx.com
-parameters:
-   repl: "1"
-allowVolumeExpansion: true
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
