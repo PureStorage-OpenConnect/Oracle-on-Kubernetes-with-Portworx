@@ -11,13 +11,14 @@ $ kubectl version --short | awk -Fv '/Server Version: / {print $3}'
 `
 
 ## PortWorx Environment
-To determine Portworx version use kubectl or pxctl.
+To determine Portworx version use kubectl
 
 `
 $ kubectl get StorageCluster -A
 `
 
 ### Use Portworx CLI pxctl
+Alteratively use pxctl
 
 `
 export PX_POD=$(kubectl get pods -l name=portworx -n portworx -o jsonpath='{.items[0].metadata.name}')
@@ -25,6 +26,7 @@ alias pxctl='kubectl exec -n portworx ${PX_POD}  -it -- /opt/pwx/bin/pxctl'
 
 $ pxctl -v
 `
+
 ## Oracle Database Versions
 Supported Oracle versions
 
