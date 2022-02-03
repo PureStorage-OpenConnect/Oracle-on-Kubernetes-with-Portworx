@@ -30,7 +30,7 @@ spec:
        - name: regcred
       containers:
         - name: oracle19c
-          image: container-registry.oracle.com/database/enterprise:latest
+          image: container-registry.oracle.com/database/enterprise:19.3.0.0
           command:
           - /opt/oracle/runOracle.sh
           imagePullPolicy: IfNotPresent
