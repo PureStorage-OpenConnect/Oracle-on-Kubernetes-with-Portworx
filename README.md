@@ -33,7 +33,7 @@ $ pxctl -v
 `
 
 ## Oracle Database Versions
-Supported Oracle versions
+Available version within the repository
 
 1. Oracle 12.2.0.1 EE
 1. Oracle 18.4.0.1 EX
@@ -51,9 +51,11 @@ $ kubectl apply -f oracle-namespace.yaml
 `
 ### Create Orcle Container Registry Secret
 Logon to the Oracle Container Registry (OCR) using SSO credentials
+
 `
 $ kubectl create secret generic regcred --from-file=.dockerconfigjson=$HOME/.docker/config.json  --type=kubernetes.io/dockerconfigjson -n oracle-namespace
 `
+
 ### Create ConfigMap
 `
 $ kubectl create configmap oradb --from-env-file=oracle.properties -n oracle-namespace
