@@ -10,24 +10,48 @@ The examples has been tested on Kubernetes v1.17 but should also work on more re
 $ kubectl version --short | awk -Fv '/Server Version: / {print $3}'
 `
 ## PortWorx Environment
-Tested with Portworx v2.7.0 
-
-### Use pxctl to confirm version of Portworx
+To determine Portworx version use kubectl or pxctl
 `
+$ kubectl get StorageCluster -A
+`
+### Use Portworx CLI (pxctl)
+`
+export PX_POD=$(kubectl get pods -l name=portworx -n portworx -o jsonpath='{.items[0].metadata.name}')
+alias pxctl='kubectl exec -n portworx ${PX_POD}  -it -- /opt/pwx/bin/pxctl'
+
 $ pxctl -v
 `
 ## Oracle Database Versions
-1. Oracle 19.3.0 EE
+1. Oracle 12.2.0.1 EE
+2. Oracle 18.4.0.1 EX
+3. Oracle 19.3.0.0 EE
+4. Oracle 21.3.0.0 EE
 
 ## Getting Started
 
 1. Install Portworx into your Kubernetes Cluster
 1. Pull this Repo
-1. Vist my Blog and read relevant Oracle on Kubernetes posts 
 
-### Examples
+### Create oracle-namespace
 `
-$ kubectl apply -f <mainfest>.yaml -n oracle-namespace
+$ kubectl apply -f oracle-namespace.yaml
+`
+### Create Orcle Container Registry Secret
+Logon to the Oracle Container Registry (OCR) using SSO credentials
+`
+$ kubectl create secret generic regcred --from-file=.dockerconfigjson=$HOME/.docker/config.json  --type=kubernetes.io/dockerconfigjson -n oracle-namespace
+`
+### Create ConfigMap
+`
+$ kubectl create configmap oradb --from-env-file=oracle.properties -n oracle-namespace
+`
+### Create Portworx Storage Class
+`
+$ kubectl apply -f px-ora-sc.yaml 
+`
+### Oracle 21c
+`
+$ kubectl apply -f 21c_statefulset_PX.yaml -n oracle-namespace
 `
 
 ## Authors
@@ -46,13 +70,6 @@ Copyright 2018 Pure Storage, Inc.
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on  an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 
 ## Link(s)
-
-Oracle 19c on Kubernetes and Portworx storage (https://ronekins.com/2020/11/06/oracle-database-19c-on-kubernetes-with-portworx-storage/)
-
-Oracle 19c on Kubernetes with Portworx Proxy Volumes and NFS (FlashBlade) (https://ronekins.com/2021/05/21/oracle-19c-on-kubernetes-with-nfs-storage-and-portworx-proxy-volumes/)
-
-Protecting your Kubernetes Oracle database with Portworx Volume Group Snapshots (https://ronekins.com/2021/02/10/protecting-your-kubernetes-oracle-database-with-portworx-volume-group-snapshots/)
-
 
 Oracle OTN (https://www.oracle.com/downloads/#category-database)
 
