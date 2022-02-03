@@ -76,6 +76,11 @@ $ kubectl apply -f px-ora-sc.yaml
 $ kubectl apply -f 21c_statefulset_PX.yaml -n oracle-namespace
 `
 
+### Determine remote Listener Port
+`
+$ kubectl get services oracle21c -o jsonpath={.spec.ports[?(@.port==1521)].nodePort}
+`
+
 ## Authors
 
 Ron Ekins, Principal Solutions Architect, Office of the CTO at Pure Storage
