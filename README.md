@@ -3,7 +3,7 @@
 
 
 ## Kubernetes Environment
-The examples has been tested on Kubernetes v1.17 but should also work on more recent Kubernetes versions.
+The examples has been tested on Kubernetes v1.21 but should also work on more recent Kubernetes versions.
 
 ### You can check the version of Kubernetes using:
 `
@@ -11,11 +11,14 @@ $ kubectl version --short | awk -Fv '/Server Version: / {print $3}'
 `
 
 ## PortWorx Environment
-To determine Portworx version use kubectl or pxctl
+To determine Portworx version use kubectl or pxctl.
+
 `
 $ kubectl get StorageCluster -A
 `
+
 ### Use Portworx CLI pxctl
+
 `
 export PX_POD=$(kubectl get pods -l name=portworx -n portworx -o jsonpath='{.items[0].metadata.name}')
 alias pxctl='kubectl exec -n portworx ${PX_POD}  -it -- /opt/pwx/bin/pxctl'
@@ -53,6 +56,7 @@ $ kubectl create configmap oradb --from-env-file=oracle.properties -n oracle-nam
 $ kubectl apply -f px-ora-sc.yaml 
 `
 ### Oracle 21c
+
 `
 $ kubectl apply -f 21c_statefulset_PX.yaml -n oracle-namespace
 `
