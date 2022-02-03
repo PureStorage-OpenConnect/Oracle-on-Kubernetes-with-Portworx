@@ -45,10 +45,16 @@ Available version within the repository
 1. Install Portworx into your Kubernetes Cluster
 1. Pull this Repo
 
-### Create oracle-namespace
+### Create Oracle Namespace
 `
 $ kubectl apply -f oracle-namespace.yaml
 `
+
+### Change default Namespace
+`
+$ kubectl config set-context --current --namespace=oracle-namespace
+`
+
 ### Create Orcle Container Registry Secret
 Logon to the Oracle Container Registry (OCR) using SSO credentials
 
