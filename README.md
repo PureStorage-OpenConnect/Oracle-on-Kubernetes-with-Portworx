@@ -9,12 +9,13 @@ The examples has been tested on Kubernetes v1.17 but should also work on more re
 `
 $ kubectl version --short | awk -Fv '/Server Version: / {print $3}'
 `
+
 ## PortWorx Environment
 To determine Portworx version use kubectl or pxctl
 `
 $ kubectl get StorageCluster -A
 `
-### Use Portworx CLI (pxctl)
+### Use Portworx CLI pxctl
 `
 export PX_POD=$(kubectl get pods -l name=portworx -n portworx -o jsonpath='{.items[0].metadata.name}')
 alias pxctl='kubectl exec -n portworx ${PX_POD}  -it -- /opt/pwx/bin/pxctl'
@@ -22,10 +23,12 @@ alias pxctl='kubectl exec -n portworx ${PX_POD}  -it -- /opt/pwx/bin/pxctl'
 $ pxctl -v
 `
 ## Oracle Database Versions
+Supported Oracle versions
+
 1. Oracle 12.2.0.1 EE
-2. Oracle 18.4.0.1 EX
-3. Oracle 19.3.0.0 EE
-4. Oracle 21.3.0.0 EE
+1. Oracle 18.4.0.1 EX
+1. Oracle 19.3.0.0 EE
+1. Oracle 21.3.0.0 EE
 
 ## Getting Started
 
