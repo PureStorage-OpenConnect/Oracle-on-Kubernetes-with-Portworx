@@ -30,7 +30,7 @@ spec:
        - name: regcred
       containers:
         - name: oracle12c
-          image: container-registry.oracle.com/database/enterprise:latest
+          image: container-registry.oracle.com/database/enterprise:12.2.0.1
           command:
           - /opt/oracle/runOracle.sh
           imagePullPolicy: IfNotPresent
