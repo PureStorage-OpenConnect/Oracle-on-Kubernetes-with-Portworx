@@ -79,7 +79,7 @@ metadata:
     app: database
     version: 18.4.0.1
 spec:
-  storageClassName: px-ora-csi-sc
+  storageClassName: px-ora-sc
   accessModes:
     - ReadWriteOnce
   resources:
@@ -94,7 +94,7 @@ metadata:
     app: database
     version: 18.4.0.1
 spec:
-  storageClassName: px-ora-csi-sc
+  storageClassName: px-ora-sc
   accessModes:
     - ReadWriteOnce
   resources:
@@ -109,7 +109,7 @@ metadata:
     app: database
     version: 18.4.0.1
 spec:
-  storageClassName: px-ora-csi-sc
+  storageClassName: px-ora-sc
   accessModes:
     - ReadWriteOnce
   resources:
