@@ -1,5 +1,5 @@
-# Oracle-on-Kubernetes
-**Oracle-On-Kunernetes** is a collection of example Kubernetes Manifest files to deliever Oracle on Kubernetes utilising Portworx storage
+# Oracle on Kubernetes with Portworx
+**Oracle On Kunernetes with Portworx** is a collection of example Kubernetes Manifest files to deliever Oracle on Kubernetes utilising Portworx storage
 
 
 ## Kubernetes Environment
