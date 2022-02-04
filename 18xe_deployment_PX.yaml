@@ -36,7 +36,7 @@ spec:
              claimName: ora-startup184-claim
       containers:
         - name: oracle18xe
-          image: 10.225.115.68:5000/oracledb:18.4.0-xe
+          image: 10.225.115.244:5000/oracledb:18.4.0-xe
           command:
           - /opt/oracle/runOracle.sh
           imagePullPolicy: IfNotPresent
