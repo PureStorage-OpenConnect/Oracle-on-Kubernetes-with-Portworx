@@ -1,0 +1,115 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: oracle18xe 
+  namespace: oracle-namespace
+  labels:
+    app: database
+    version: 18.4.0.1
+spec:
+  serviceName: "oracle18xe"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: database
+      version: 18.4.0.1
+  template:
+    metadata:
+      name: oracle18xe
+      labels:
+        app: database
+        version: 18.4.0.1
+    spec:
+      securityContext:
+        fsGroup: 54321
+      volumes:
+         - name: dshm
+           emptyDir:
+             medium: Memory    
+      containers:
+        - name: oracle18xe
+          image: 10.225.115.68:5000/oracledb:18.4.0-xe
+          command:
+          - /opt/oracle/runOracle.sh
+          imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              memory: 4Gi
+          ports:
+            - name: listener
+              containerPort: 1521
+              hostPort: 1521
+            - name: oemexpress
+              containerPort: 5500
+              hostPort: 5500
+          volumeMounts:
+            - name: dshm
+              mountPath: "/dev/shm"
+            - name: ora-data184
+              mountPath: "/opt/oracle/oradata"
+            - name: ora-setup184
+              mountPath: "/opt/oracle/scripts/setup"
+            - name: ora-startup184
+              mountPath: "/opt/oracle/scripts/startup"
+          env:
+            - name: ORACLE_PWD
+              valueFrom:
+                configMapKeyRef:
+                  name: oradb #Read from a configmap called oradb
+                  key: ORACLE_PWD #Read the key call ORACLE_PWD
+            - name: ORACLE_CHARACTERSET
+              valueFrom:
+                configMapKeyRef:
+                  name: oradb #Read from a configmap called oradb
+                  key: ORACLE_CHARACTERSET #Read the key call ORACLE_CHARACTERSET
+  volumeClaimTemplates:
+    - metadata:
+        name: ora-startup184 
+      spec:
+        storageClassName: px-ora-sc
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
+    - metadata:
+        name: ora-setup184
+      spec:
+        storageClassName: px-ora-sc
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
+    - metadata:
+        name: ora-data184
+      spec:
+        storageClassName: px-ora-sc
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: 20Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: oracle18xe
+  namespace: oracle-namespace
+  labels:
+    app: database
+    version: 18.4.0.1
+spec:
+  selector:
+    app: database
+    version: 18.4.0.1
+  type: NodePort
+  ports:
+  - name: listener
+    protocol: TCP
+    port: 1521
+    targetPort: 1521
+  - name: oemexpress
+    protocol: TCP
+    port: 5500
+    targetPort: 5500
